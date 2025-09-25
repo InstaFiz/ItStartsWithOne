@@ -1202,6 +1202,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2088731181418694421, guid: 43edd9c15d968ff4eaca6e8960f196ea, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2317293206191507627, guid: 43edd9c15d968ff4eaca6e8960f196ea, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1269,3 +1273,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba1e5a6a866ca5c4a9b9642386f4dd89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 20

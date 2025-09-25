@@ -17,11 +17,16 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Cursor.visible = !Application.isFocused;
+        Cursor.lockState = CursorLockMode.None;
+        
         MoveWithMouse();
     }
     
     void MoveWithMouse()
     {
+        if (!Application.isFocused) return;
+        
         Vector3 mousePosition = Input.mousePosition;
         
         Vector3 targetPosition = MainCamera.ScreenToWorldPoint(mousePosition);
