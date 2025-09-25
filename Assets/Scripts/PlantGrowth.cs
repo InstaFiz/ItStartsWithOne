@@ -9,6 +9,8 @@ public class PlantGrowth : MonoBehaviour
     public int timeBetweenGrowths;
     public int maxGrowth;
 
+    public Canvas treeOptions;
+
     // private bool hasFinishedGrowth = false;
 
     void Start()
@@ -30,54 +32,32 @@ public class PlantGrowth : MonoBehaviour
 
     void OnMouseDown()
     {
+        /*
         if (currentProgression == -1)
         {
-            currentProgression = 0;
-            InvokeRepeating("Growth", timeBetweenGrowths, timeBetweenGrowths);
+            InvokeRepeating("Growth", 0, timeBetweenGrowths);
         }
-    }
+        */
 
-    void clicked()
-    {
-        if (currentProgression == -1)
-        {
-            currentProgression = 0;
-            InvokeRepeating("Growth", timeBetweenGrowths, timeBetweenGrowths);
-        }
+        treeOptions.enabled = true;
     }
 
     // Grows untils maxGrowth stage
     public void Growth()
     {
-        /*
-        if (currentProgression != maxGrowth)
+        if (currentProgression < maxGrowth)
         {
-            gameObject.transform.GetChild(currentProgression).gameObject.SetActive(true);
-        }
-        if (currentProgression > 0 && currentProgression < maxGrowth)
-        {
-            gameObject.transform.GetChild(currentProgression - 1).gameObject.SetActive(false);
-        }
-
-        if (currentProgression < maxGrowth) 
-        {
-            if (currentProgression < maxGrowth - 1) // If not near final stage
-            {
-                AudioManager.Instance.PlaySFX(AudioManager.Instance.growClip); // Play sound from AudioManager
-            }
-
             currentProgression++;
         }
-        */
 
         if (currentProgression < maxGrowth)
         {
             AudioManager.Instance.PlaySFX(AudioManager.Instance.growClip);
-            currentProgression++;
         }
         else
         {
             AudioManager.Instance.PlaySFX(AudioManager.Instance.finalGrowClip);
+            CancelInvoke();
         }
 
         /*
