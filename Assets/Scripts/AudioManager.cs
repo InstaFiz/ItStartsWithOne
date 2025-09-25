@@ -11,6 +11,7 @@ public class AudioManager : MonoBehaviour
     public AudioSource sfxSource;
 
     [Header("Audio Clips")]
+    public AudioClip plantSeedClip;
     public AudioClip growClip;
     public AudioClip finalGrowClip;
 

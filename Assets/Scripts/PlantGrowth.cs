@@ -9,7 +9,7 @@ public class PlantGrowth : MonoBehaviour
     public int timeBetweenGrowths;
     public int maxGrowth;
 
-    private bool hasFinishedGrowth = false;
+    // private bool hasFinishedGrowth = false;
 
     void Start()
     {
