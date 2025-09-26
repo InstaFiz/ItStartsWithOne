@@ -55,7 +55,7 @@ public class PlantGrowOnClick : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioManager.Instance.finalGrowClip); // Play sound from AudioManager
             hasFinishedGrowth = true; // Prevent replay
 
-            ScoreManager.Instance.AddReputation(1); // Increase reputation when fully grown
+            ScoreManager.Instance.AddTree(1); // Increase reputation when fully grown
 
             CancelInvoke("Growth"); // Stops repeating when hasFinishedGrowth is true
         }

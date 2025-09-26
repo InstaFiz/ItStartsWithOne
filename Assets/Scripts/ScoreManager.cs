@@ -7,6 +7,7 @@ public class ScoreManager : MonoBehaviour
     public static ScoreManager Instance;
 
     public int reputation = 0;
+    public int treesPlanted = 0;
 
     private void Awake()
     {
@@ -23,8 +24,16 @@ public class ScoreManager : MonoBehaviour
         DontDestroyOnLoad(gameObject); // Carries between scenes
     }
 
-    public void AddReputation(int amount)
+    public void AddTree(int amount)
     {
-        reputation += amount;
+        treesPlanted += amount;
+    }
+
+    void Update()
+    {
+        if (treesPlanted < 3)
+            reputation = 0;
+        if (treesPlanted >= 3)
+            reputation = 1;
     }
 }

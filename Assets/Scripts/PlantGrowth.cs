@@ -5,10 +5,11 @@ using UnityEngine;
 public class PlantGrowth : MonoBehaviour
 {
     // Set in the inspector
-    private int currentProgression = -1;
+    public int currentProgression = -1;
     public int timeBetweenGrowths;
     public int maxGrowth;
 
+    public GameObject treeArray;
     public Canvas treeOptions;
 
     // private bool hasFinishedGrowth = false;
@@ -32,14 +33,16 @@ public class PlantGrowth : MonoBehaviour
 
     void OnMouseDown()
     {
-        /*
+        treeOptions.enabled = true;
+        treeArray.GetComponent<TreeManager>().curTree = gameObject.transform.GetSiblingIndex();
+    }
+
+    public void StartGrowth()
+    {
         if (currentProgression == -1)
         {
             InvokeRepeating("Growth", 0, timeBetweenGrowths);
         }
-        */
-
-        treeOptions.enabled = true;
     }
 
     // Grows untils maxGrowth stage
@@ -56,6 +59,7 @@ public class PlantGrowth : MonoBehaviour
         }
         else
         {
+            ScoreManager.Instance.AddTree(1);
             AudioManager.Instance.PlaySFX(AudioManager.Instance.finalGrowClip);
             CancelInvoke();
         }
