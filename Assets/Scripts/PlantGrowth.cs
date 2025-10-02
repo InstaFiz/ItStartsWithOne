@@ -6,18 +6,19 @@ public class PlantGrowth : MonoBehaviour
 {
     // Set in the inspector
     public int currentProgression = -1;
+    public int waterProgression = 0;
     public int timeBetweenGrowths;
     public int maxGrowth;
 
     public GameObject treeArray;
+    public TreeManager treeArrayScript;
     public Canvas treeOptions;
 
     // private bool hasFinishedGrowth = false;
 
     void Start()
     {
-        // Calls growth function after timeBetweenGrowths
-        // InvokeRepeating("Growth", timeBetweenGrowths, timeBetweenGrowths);
+        treeArrayScript = treeArray.GetComponent<TreeManager>();
     }
     
     void Update()
@@ -34,42 +35,38 @@ public class PlantGrowth : MonoBehaviour
     void OnMouseDown()
     {
         treeOptions.enabled = true;
-        treeArray.GetComponent<TreeManager>().curTree = gameObject.transform.GetSiblingIndex();
+        treeArrayScript.curTree = gameObject.transform.GetSiblingIndex();
     }
 
     public void StartGrowth()
     {
-        if (currentProgression == -1)
-        {
-            InvokeRepeating("Growth", 0, timeBetweenGrowths);
-        }
+        InvokeRepeating("Growth", 0, timeBetweenGrowths);
     }
 
     // Grows untils maxGrowth stage
     public void Growth()
     {
-        if (currentProgression < maxGrowth)
+        if (currentProgression < waterProgression)
         {
-            currentProgression++;
-        }
+            if (currentProgression < maxGrowth)
+            {
+                currentProgression++;
+            }
 
-        if (currentProgression < maxGrowth)
-        {
-            AudioManager.Instance.PlaySFX(AudioManager.Instance.growClip);
+            if (currentProgression < maxGrowth)
+            {
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.growClip);
+            }
+            else
+            {
+                ScoreManager.Instance.AddTree(1);
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.finalGrowClip);
+                CancelInvoke();
+            }
         }
         else
         {
-            ScoreManager.Instance.AddTree(1);
-            AudioManager.Instance.PlaySFX(AudioManager.Instance.finalGrowClip);
             CancelInvoke();
         }
-
-        /*
-        if (currentProgression == maxGrowth && !hasFinishedGrowth)
-        {
-            AudioManager.Instance.PlaySFX(AudioManager.Instance.finalGrowClip); // Play sound from AudioManager
-            hasFinishedGrowth = true; // Prevent replay
-        }
-        */
     }
 }

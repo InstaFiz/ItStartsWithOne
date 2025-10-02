@@ -33,9 +33,18 @@ public class TreeManager : MonoBehaviour
             no.gameObject.SetActive(true);
             okay.gameObject.SetActive(false);
         }
+        else if (daTreeScript.currentProgression < daTreeScript.maxGrowth)
+        {
+
+                treeUIText.text = "Next stage in X....\nAdd water?";
+
+                yes.gameObject.SetActive(true);
+                no.gameObject.SetActive(true);
+                okay.gameObject.SetActive(false);
+        }
         else
         {
-            treeUIText.text = "A tree is\nplanted here!";
+            treeUIText.text = "This tree has\nfinished planting!";
             yes.gameObject.SetActive(false);
             no.gameObject.SetActive(false);
             okay.gameObject.SetActive(true);
