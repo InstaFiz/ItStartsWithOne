@@ -6,9 +6,11 @@ public class PlantGrowth : MonoBehaviour
 {
     // Set in the inspector
     public int currentProgression = -1;
-    public int waterProgression = 0;
-    public int timeBetweenGrowths;
+    public int waterProgression = -1;
+    public int timeBetweenGrowths = 10;
     public int maxGrowth;
+    public int curTime = 10;
+    public bool halted = true;
 
     public GameObject treeArray;
     public TreeManager treeArrayScript;
@@ -34,18 +36,28 @@ public class PlantGrowth : MonoBehaviour
 
     void OnMouseDown()
     {
+        treeArrayScript.viewingTree = true;
         treeOptions.enabled = true;
         treeArrayScript.curTree = gameObject.transform.GetSiblingIndex();
     }
 
     public void StartGrowth()
     {
-        InvokeRepeating("Growth", 0, timeBetweenGrowths);
+        waterProgression++;
+
+        if (halted)
+        {
+            halted = false;
+            curTime = timeBetweenGrowths;
+            InvokeRepeating("Growth", 0, timeBetweenGrowths);
+        }
     }
 
     // Grows untils maxGrowth stage
     public void Growth()
     {
+        CancelInvoke("CountDown");
+
         if (currentProgression < waterProgression)
         {
             if (currentProgression < maxGrowth)
@@ -55,18 +67,26 @@ public class PlantGrowth : MonoBehaviour
 
             if (currentProgression < maxGrowth)
             {
+                curTime = timeBetweenGrowths;
+                InvokeRepeating("CountDown", 1, 1);
                 AudioManager.Instance.PlaySFX(AudioManager.Instance.growClip);
             }
             else
             {
                 ScoreManager.Instance.AddTree(1);
                 AudioManager.Instance.PlaySFX(AudioManager.Instance.finalGrowClip);
-                CancelInvoke();
+                CancelInvoke("Growth");
             }
         }
         else
         {
-            CancelInvoke();
+            halted = true;
+            CancelInvoke("Growth");
         }
+    }
+
+    void CountDown()
+    {
+        curTime--;
     }
 }

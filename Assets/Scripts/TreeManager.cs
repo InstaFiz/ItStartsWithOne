@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class TreeManager : MonoBehaviour
 {
     public int curTree = 0;
+    public bool viewingTree = false;
+    public GameObject daSquare;
     GameObject daTree;
     PlantGrowth daTreeScript;
 
@@ -13,6 +15,9 @@ public class TreeManager : MonoBehaviour
     public Button yes;
     public Button no;
     public Button okay;
+
+    public int thisTreeProgress;
+    public int thisWaterProgress;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +31,13 @@ public class TreeManager : MonoBehaviour
         daTree = gameObject.transform.GetChild(curTree).gameObject;
         daTreeScript = daTree.GetComponent<PlantGrowth>();
 
+        if (viewingTree)
+            daSquare.gameObject.SetActive(true);
+        else
+            daSquare.gameObject.SetActive(false);
+
+        daSquare.transform.position = new Vector3(daTree.transform.position.x, daTree.transform.position.y, daTree.transform.position.z);
+
         if (daTreeScript.currentProgression == -1)
         {
             treeUIText.text = "There is no tree here.\nWould you like to plant one?";
@@ -35,12 +47,28 @@ public class TreeManager : MonoBehaviour
         }
         else if (daTreeScript.currentProgression < daTreeScript.maxGrowth)
         {
-
-                treeUIText.text = "Next stage in X....\nAdd water?";
-
+            if (daTreeScript.waterProgression < daTreeScript.maxGrowth)
+            {
                 yes.gameObject.SetActive(true);
                 no.gameObject.SetActive(true);
                 okay.gameObject.SetActive(false);
+
+                if (daTreeScript.halted)
+                {
+                    treeUIText.text = "This tree has stopped growing!\nIt needs more water. Give it more?";
+                }
+                else
+                {
+                    treeUIText.text = "This tree will reach the next stage in " + daTreeScript.curTime + "...\nAdd water?";
+                }
+            }
+            else
+            {
+                treeUIText.text = "This tree will reach the next stage in " + daTreeScript.curTime + "\nIt doesn't need more water.";
+                yes.gameObject.SetActive(false);
+                no.gameObject.SetActive(false);
+                okay.gameObject.SetActive(true);
+            }
         }
         else
         {
@@ -49,10 +77,18 @@ public class TreeManager : MonoBehaviour
             no.gameObject.SetActive(false);
             okay.gameObject.SetActive(true);
         }
+
+        thisTreeProgress = daTreeScript.currentProgression;
+        thisWaterProgress = daTreeScript.waterProgression;
     }
 
     public void growthDirectory()
     {
         daTree.GetComponent<PlantGrowth>().StartGrowth();
+    }
+
+    public void notViewingTree()
+    {
+        viewingTree = false;
     }
 }

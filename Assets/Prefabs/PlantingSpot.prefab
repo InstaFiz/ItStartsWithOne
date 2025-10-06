@@ -371,7 +371,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bdce1bf1cfa5f142bb6d74918653d28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBetweenGrowths: 2
+  currentProgression: -1
+  waterProgression: -1
+  timeBetweenGrowths: 10
   maxGrowth: 2
+  curTime: 10
+  halted: 1
   treeArray: {fileID: 0}
+  treeArrayScript: {fileID: 0}
   treeOptions: {fileID: 0}
