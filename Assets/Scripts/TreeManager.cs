@@ -19,10 +19,12 @@ public class TreeManager : MonoBehaviour
     public int thisTreeProgress;
     public int thisWaterProgress;
 
+    public int waterSupply;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        waterSupply = 9;
     }
 
     // Update is called once per frame
@@ -38,7 +40,14 @@ public class TreeManager : MonoBehaviour
 
         daSquare.transform.position = new Vector3(daTree.transform.position.x, daTree.transform.position.y, daTree.transform.position.z);
 
-        if (daTreeScript.currentProgression == -1)
+        if (waterSupply <= 0)
+        {
+            treeUIText.text = "You have no\nwater left!";
+            yes.gameObject.SetActive(false);
+            no.gameObject.SetActive(false);
+            okay.gameObject.SetActive(true);
+        }
+        else if (daTreeScript.currentProgression == -1)
         {
             treeUIText.text = "There is no tree here.\nWould you like to plant one?";
             yes.gameObject.SetActive(true);

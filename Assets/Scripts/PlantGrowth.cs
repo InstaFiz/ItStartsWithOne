@@ -14,6 +14,8 @@ public class PlantGrowth : MonoBehaviour
 
     public GameObject treeArray;
     public TreeManager treeArrayScript;
+    public GameObject daTutorial;
+    public Tutorial daTutorialScript;
     public Canvas treeOptions;
 
     // private bool hasFinishedGrowth = false;
@@ -21,6 +23,7 @@ public class PlantGrowth : MonoBehaviour
     void Start()
     {
         treeArrayScript = treeArray.GetComponent<TreeManager>();
+        daTutorialScript = daTutorial.GetComponent <Tutorial>();
     }
     
     void Update()
@@ -36,14 +39,18 @@ public class PlantGrowth : MonoBehaviour
 
     void OnMouseDown()
     {
-        treeArrayScript.viewingTree = true;
-        treeOptions.enabled = true;
-        treeArrayScript.curTree = gameObject.transform.GetSiblingIndex();
+        if (daTutorialScript.finished)
+        {
+            treeArrayScript.viewingTree = true;
+            treeOptions.enabled = true;
+            treeArrayScript.curTree = gameObject.transform.GetSiblingIndex();
+        }
     }
 
     public void StartGrowth()
     {
         waterProgression++;
+        treeArrayScript.waterSupply--;
 
         if (halted)
         {
