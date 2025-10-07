@@ -913,6 +913,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 525150427}
+  treeArray: {fileID: 0}
+  treeArrayScript: {fileID: 0}
+  daTutorial: {fileID: 0}
+  daTutorialScript: {fileID: 0}
+  curTime: 300
 --- !u!1 &546166552
 GameObject:
   m_ObjectHideFlags: 0
@@ -2074,6 +2079,7 @@ MonoBehaviour:
   daText: {fileID: 546166553}
   curPage: 0
   finished: 0
+  won: 0
 --- !u!1 &1204597814
 GameObject:
   m_ObjectHideFlags: 0
@@ -2591,8 +2597,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b8ca1e90b51b2043b045fd8f88b0d4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reputation: 0
   treesPlanted: 0
+  repValue: 0
+  repText: Unremarkable
+  townArray: {fileID: 0}
+  treeArray: {fileID: 0}
+  treeArrayScript: {fileID: 0}
+  daTutorial: {fileID: 0}
+  daTutorialScript: {fileID: 0}
 --- !u!4 &1438865909
 Transform:
   m_ObjectHideFlags: 0
@@ -2822,6 +2834,7 @@ MonoBehaviour:
   okay: {fileID: 1831984639}
   thisTreeProgress: 0
   thisWaterProgress: 0
+  waterSupply: 0
 --- !u!1 &1691510519
 GameObject:
   m_ObjectHideFlags: 0

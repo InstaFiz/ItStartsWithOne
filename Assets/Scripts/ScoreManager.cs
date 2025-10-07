@@ -16,12 +16,23 @@ public class ScoreManager : MonoBehaviour
     public GameObject daTutorial;
     public Tutorial daTutorialScript;
 
+    [Header("Audio")] // Assign in the inspector
+    public AudioClip repChangeClip;
+    private AudioSource audioSource;
+    private int lastRepValue = -1;
+
     void Start()
     {
         treesPlanted = 0;
         repValue = 0;
         treeArrayScript = treeArray.GetComponent<TreeManager>();
         daTutorialScript = daTutorial.GetComponent<Tutorial>();
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
     }
 
     private void Awake()
@@ -59,6 +70,16 @@ public class ScoreManager : MonoBehaviour
 
     void Update()
     {
+        // Play sound when repValue changes
+        if (repValue != lastRepValue && repValue != 0)
+        {
+            if (repChangeClip != null)
+            {
+                audioSource.PlayOneShot(repChangeClip);
+            }
+            lastRepValue = repValue;
+        }
+
         if (repValue <= 0)
             repText = "Unremarkable";
         if (repValue == 1)
