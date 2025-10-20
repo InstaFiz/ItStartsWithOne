@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlantGrowth : MonoBehaviour
 {
     // Set in the inspector
+    public int treeType;
     public int currentProgression = -1;
     public int waterProgression = -1;
     public int timeBetweenGrowths = 10;
@@ -17,6 +18,7 @@ public class PlantGrowth : MonoBehaviour
     public GameObject daTutorial;
     public Tutorial daTutorialScript;
     public Canvas treeOptions;
+    public Canvas seedOptions;
 
     // private bool hasFinishedGrowth = false;
 
@@ -24,6 +26,7 @@ public class PlantGrowth : MonoBehaviour
     {
         treeArrayScript = treeArray.GetComponent<TreeManager>();
         daTutorialScript = daTutorial.GetComponent <Tutorial>();
+        maxGrowth = 5;
     }
     
     void Update()
@@ -31,7 +34,7 @@ public class PlantGrowth : MonoBehaviour
         for (int i = 0; i <= maxGrowth; i++)
         {
             if (i == currentProgression)
-                gameObject.transform.GetChild(i).gameObject.SetActive(true);
+                gameObject.transform.GetChild(i - treeType).gameObject.SetActive(true);
             else
                 gameObject.transform.GetChild(i).gameObject.SetActive(false);
         }
@@ -42,14 +45,17 @@ public class PlantGrowth : MonoBehaviour
         if (daTutorialScript.finished)
         {
             treeArrayScript.viewingTree = true;
-            treeOptions.enabled = true;
             treeArrayScript.curTree = gameObject.transform.GetSiblingIndex();
+            if (currentProgression > -1)
+                treeOptions.enabled = true;
+            else
+                seedOptions.enabled = true;
         }
     }
 
     public void StartGrowth()
     {
-        waterProgression++;
+        waterProgression += 2;
         treeArrayScript.waterSupply--;
 
         if (halted)
@@ -69,7 +75,7 @@ public class PlantGrowth : MonoBehaviour
         {
             if (currentProgression < maxGrowth)
             {
-                currentProgression++;
+                currentProgression += 2;
             }
 
             if (currentProgression < maxGrowth)
@@ -80,7 +86,7 @@ public class PlantGrowth : MonoBehaviour
             }
             else
             {
-                ScoreManager.Instance.AddTree(1);
+                ScoreManager.Instance.AddTree(1 + treeType);
                 AudioManager.Instance.PlaySFX(AudioManager.Instance.finalGrowClip);
                 CancelInvoke("Growth");
             }

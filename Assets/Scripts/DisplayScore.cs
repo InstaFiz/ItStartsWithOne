@@ -10,6 +10,8 @@ public class DisplayScore : MonoBehaviour
     public TreeManager treeArrayScript;
     public GameObject daTutorial;
     public Tutorial daTutorialScript;
+    public GameObject daShop;
+    public Shop daShopScript;
 
     public float curTime = 300f;
     string timer;
@@ -22,6 +24,7 @@ public class DisplayScore : MonoBehaviour
         curTime = 300f;
         treeArrayScript = treeArray.GetComponent<TreeManager>();
         daTutorialScript = daTutorial.GetComponent<Tutorial>();
+        daShopScript = daShop.GetComponent<Shop>();
     }
 
     // Update is called once per frame
@@ -42,7 +45,7 @@ public class DisplayScore : MonoBehaviour
             daTutorialScript.Increment();
         }
 
-        scoreText.text = "Reputation:\n" + ScoreManager.Instance.repText + "\nWater supply: " + treeArrayScript.waterSupply + "\nTime left: " + timer;
+        scoreText.text = "Reputation:\n" + ScoreManager.Instance.repText + "\nCoins: " + daShopScript.coins + "\nTime left: " + timer;
     }
 
     public void TimePenalty()

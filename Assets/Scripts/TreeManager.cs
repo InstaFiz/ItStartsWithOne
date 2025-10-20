@@ -19,12 +19,19 @@ public class TreeManager : MonoBehaviour
     public int thisTreeProgress;
     public int thisWaterProgress;
 
+    public int lesserSeeds;
+    public int greaterSeeds;
     public int waterSupply;
+
+    public Canvas treeOptions;
+    public Canvas seedOptions;
 
     // Start is called before the first frame update
     void Start()
     {
-        waterSupply = 9;
+        lesserSeeds = 0;
+        greaterSeeds = 0;
+        waterSupply = 6;
     }
 
     // Update is called once per frame
@@ -40,21 +47,7 @@ public class TreeManager : MonoBehaviour
 
         daSquare.transform.position = new Vector3(daTree.transform.position.x, daTree.transform.position.y, daTree.transform.position.z);
 
-        if (waterSupply <= 0)
-        {
-            treeUIText.text = "You have no\nwater left!";
-            yes.gameObject.SetActive(false);
-            no.gameObject.SetActive(false);
-            okay.gameObject.SetActive(true);
-        }
-        else if (daTreeScript.currentProgression == -1)
-        {
-            treeUIText.text = "There is no tree here.\nWould you like to plant one?";
-            yes.gameObject.SetActive(true);
-            no.gameObject.SetActive(true);
-            okay.gameObject.SetActive(false);
-        }
-        else if (daTreeScript.currentProgression < daTreeScript.maxGrowth)
+        if (daTreeScript.currentProgression < daTreeScript.maxGrowth)
         {
             if (daTreeScript.waterProgression < daTreeScript.maxGrowth)
             {
@@ -64,11 +57,11 @@ public class TreeManager : MonoBehaviour
 
                 if (daTreeScript.halted)
                 {
-                    treeUIText.text = "This tree has stopped growing!\nIt needs more water. Give it more?";
+                    treeUIText.text = "This tree has stopped growing!\nAdd water? (" + waterSupply + " left)";
                 }
                 else
                 {
-                    treeUIText.text = "This tree will reach the next stage in " + daTreeScript.curTime + "...\nAdd water?";
+                    treeUIText.text = "This tree will reach the next stage in " + daTreeScript.curTime + "...\nAdd water? (" + waterSupply + " left)";
                 }
             }
             else
@@ -91,9 +84,35 @@ public class TreeManager : MonoBehaviour
         thisWaterProgress = daTreeScript.waterProgression;
     }
 
+    public void SetTreeType(int daType)
+    {
+        daTree.GetComponent<PlantGrowth>().treeType = daType;
+    }
+
+    public void seedDirectory(int daType)
+    {
+        if (daType == 0)
+            if (lesserSeeds > 0 && waterSupply > 0)
+            {
+                lesserSeeds--;
+                daTree.GetComponent<PlantGrowth>().StartGrowth();
+                seedOptions.enabled = false;
+                treeOptions.enabled = true;
+            }
+        if (daType == 1)
+            if (greaterSeeds > 0 && waterSupply > 0)
+            {
+                greaterSeeds--;
+                daTree.GetComponent<PlantGrowth>().StartGrowth();
+                seedOptions.enabled = false;
+                treeOptions.enabled = true;
+            }
+    }
+
     public void growthDirectory()
     {
-        daTree.GetComponent<PlantGrowth>().StartGrowth();
+        if (waterSupply > 0)
+            daTree.GetComponent<PlantGrowth>().StartGrowth();
     }
 
     public void notViewingTree()

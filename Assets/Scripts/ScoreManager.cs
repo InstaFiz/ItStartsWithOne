@@ -15,11 +15,17 @@ public class ScoreManager : MonoBehaviour
     public TreeManager treeArrayScript;
     public GameObject daTutorial;
     public Tutorial daTutorialScript;
+    public GameObject daShop;
+    public Shop daShopScript;
 
     [Header("Audio")] // Assign in the inspector
     public AudioClip repChangeClip;
     private AudioSource audioSource;
     private int lastRepValue = -1;
+
+    bool repFlag1 = false;
+    bool repFlag2 = false;
+    bool repFlag3 = false;
 
     void Start()
     {
@@ -27,6 +33,7 @@ public class ScoreManager : MonoBehaviour
         repValue = 0;
         treeArrayScript = treeArray.GetComponent<TreeManager>();
         daTutorialScript = daTutorial.GetComponent<Tutorial>();
+        daShopScript = daShop.GetComponent<Shop>();
 
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
@@ -48,20 +55,23 @@ public class ScoreManager : MonoBehaviour
     {
         treesPlanted += amount;
 
-        if (treesPlanted == 3)
+        if (treesPlanted >= 3 && !repFlag1)
         {
+            repFlag1 = true;
             repValue = 1;
-            treeArrayScript.waterSupply += 9;
+            daShopScript.coins += 500;
         }
 
-        if (treesPlanted == 6)
+        if (treesPlanted >= 6 && !repFlag2)
         {
+            repFlag2 = true;
             repValue = 2;
-            treeArrayScript.waterSupply += 12;
+            daShopScript.coins += 500;
         }
 
-        if (treesPlanted == 10)
+        if (treesPlanted >= 10 && !repFlag3)
         {
+            repFlag3 = true;
             repValue = 3;
             daTutorialScript.won = true;
             daTutorialScript.Increment();
